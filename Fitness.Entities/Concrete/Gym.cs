@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Fitness.Entities.Concrete;
 
-public class Gym:IEntity
+public class Gym: IEntityWithId
 {
     public int Id { get; set; }
     [Required(ErrorMessage = "Salon adı zorunludur.")]

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Fitness.Entities.Concrete;
 
-public class Trainer:IEntity
+public class Trainer: IEntityWithId
 {
     public int Id { get; set; }
     [Required(ErrorMessage = "Antrenör adı zorunludur.")]

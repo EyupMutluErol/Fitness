@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Fitness.Entities.Concrete;
 
-public class Appointment:IEntity
+public class Appointment: IEntityWithId
 {
     public int Id { get; set; }
     [Required]

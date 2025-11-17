@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Fitness.Entities.Concrete;
 
-public class Service:IEntity
+public class Service: IEntityWithId
 {
     public int Id { get; set; }
     [Required(ErrorMessage = "Hizmet adı zorunludur.")]

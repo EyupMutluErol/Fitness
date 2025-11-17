@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Fitness.Entities.Concrete;
 
 
-public class Availability:IEntity 
+public class Availability: IEntityWithId
 {
     public int Id { get; set; }
     public int TrainerId { get; set; }
