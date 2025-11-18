@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 
 namespace Fitness.Data.Abstract;
 
-public interface IGenericRepository<T> where T : class , IEntity , new()
+public interface IGenericRepository<T> where T : class , IEntityWithId , new()
 {
     Task<List<T>> GetAllAsync();
     Task<T> GetByIdAsync(int id);

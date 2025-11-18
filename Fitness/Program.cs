@@ -1,5 +1,11 @@
+using Fitness.Data.Concrete;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
+var connetionString = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<FitnessDbContext>(options =>
+    options.UseSqlServer(connetionString));
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
