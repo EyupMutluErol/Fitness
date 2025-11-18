@@ -3,9 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var connetionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<FitnessDbContext>(options =>
-    options.UseSqlServer(connetionString));
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
@@ -14,10 +12,15 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
+    builder.Configuration.AddUserSecrets<Program>();
     app.UseExceptionHandler("/Home/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<FitnessDbContext>(options =>
+    options.UseSqlServer(connectionString));
 
 app.UseHttpsRedirection();
 app.UseRouting();
