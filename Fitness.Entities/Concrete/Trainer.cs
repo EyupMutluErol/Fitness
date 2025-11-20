@@ -15,6 +15,8 @@ public class Trainer: IEntityWithId
     [Required(ErrorMessage = "Uzmanlık alanı zorunludur.")]
     [MaxLength(100, ErrorMessage = "Uzmanlık alanı en fazla 100 karakter olabilir.")]
     public string Specialization { get; set; }
+    [Required(ErrorMessage = "Kullanıcı ID'si zorunludur.")]
+    public string AppUserId { get; set; }
     [MaxLength(1000, ErrorMessage = "Biyografi en fazla 1000 karakter olabilir.")]
     public string? Bio { get; set; }
     [Url(ErrorMessage = "Geçersiz profil resmi URL'si.")]
@@ -25,5 +27,6 @@ public class Trainer: IEntityWithId
     public virtual ICollection<Availability> Availabilities { get; set; }
     public virtual ICollection<ServiceTrainer> ServiceTrainers { get; set; }
     public virtual ICollection<Appointment> Appointments { get; set; } 
-    
-}
+    public virtual AppUser AppUser { get; set; }
+
+    }

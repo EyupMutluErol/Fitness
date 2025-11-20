@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace Fitness.Data.Concrete;
+namespace Fitness.Data.Concrete.Context;
 
 public class FitnessDbContext:IdentityDbContext<AppUser,IdentityRole,string>
 {
@@ -22,6 +22,18 @@ public class FitnessDbContext:IdentityDbContext<AppUser,IdentityRole,string>
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<Appointment>()
+            .HasOne(a => a.AppUser) 
+            .WithMany(u => u.Appointments) 
+            .HasForeignKey(a => a.AppUserId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<Trainer>()
+            .HasOne(t => t.AppUser) 
+            .WithOne(u => u.TrainerProfile) 
+            .HasForeignKey<Trainer>(t => t.AppUserId)
+            .OnDelete(DeleteBehavior.Restrict);
 
         modelBuilder.Entity<ServiceTrainer>()
             .HasKey(st => new { st.ServiceId, st.TrainerId });

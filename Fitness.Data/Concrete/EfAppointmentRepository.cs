@@ -1,4 +1,5 @@
 ﻿using Fitness.Data.Abstract;
+using Fitness.Data.Concrete.Context;
 using Fitness.Entities.Concrete;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,7 +11,7 @@ public class EfAppointmentRepository : GenericRepository<Appointment>, IAppointm
     {
     }
 
-    public async Task<List<Appointment>> GetAppointmentByTrainerIdAsync(int trainerId)
+    public async Task<List<Appointment>> GetAppointmentsByTrainerIdAsync(int trainerId)
     {
         return await _context.Set<Appointment>()
             .Include(a=>a.AppUser)
@@ -20,7 +21,7 @@ public class EfAppointmentRepository : GenericRepository<Appointment>, IAppointm
             .ToListAsync();
     }
 
-    public async Task<List<Appointment>> GetAppointmentByUserIdAsync(string userId)
+    public async Task<List<Appointment>> GetAppointmentsByUserIdAsync(string userId)
     {
          return await _context.Set<Appointment>()
             .Include(a=>a.Trainer)

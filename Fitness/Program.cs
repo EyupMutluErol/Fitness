@@ -1,4 +1,4 @@
-using Fitness.Data.Concrete;
+using Fitness.Data.Concrete.Context;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

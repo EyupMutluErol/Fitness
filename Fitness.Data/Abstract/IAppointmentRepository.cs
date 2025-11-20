@@ -4,6 +4,6 @@ namespace Fitness.Data.Abstract;
 
 public interface IAppointmentRepository:IGenericRepository<Appointment>
 {
-    Task<List<Appointment>> GetAppointmentByUserIdAsync(string userId);
-    Task<List<Appointment>> GetAppointmentByTrainerIdAsync(int trainerId);
+    Task<List<Appointment>> GetAppointmentsByUserIdAsync(string userId);
+    Task<List<Appointment>> GetAppointmentsByTrainerIdAsync(int trainerId);
 }

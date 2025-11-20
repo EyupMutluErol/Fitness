@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Fitness.Data.Migrations
 {
     [DbContext(typeof(FitnessDbContext))]
-    [Migration("20251118183020_InitialSetup")]
-    partial class InitialSetup
+    [Migration("20251120175056_AddTrainerAndUserLink")]
+    partial class AddTrainerAndUserLink
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -42,6 +42,7 @@ namespace Fitness.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
@@ -79,7 +80,9 @@ namespace Fitness.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
@@ -266,6 +269,10 @@ namespace Fitness.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("AppUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("Bio")
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
@@ -290,6 +297,9 @@ namespace Fitness.Data.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AppUserId")
+                        .IsUnique();
 
                     b.ToTable("Trainers");
                 });
@@ -432,7 +442,7 @@ namespace Fitness.Data.Migrations
                     b.HasOne("Fitness.Entities.Concrete.AppUser", "AppUser")
                         .WithMany("Appointments")
                         .HasForeignKey("AppUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Fitness.Entities.Concrete.Service", "Service")
@@ -482,6 +492,17 @@ namespace Fitness.Data.Migrations
                     b.Navigation("Service");
 
                     b.Navigation("Trainer");
+                });
+
+            modelBuilder.Entity("Fitness.Entities.Concrete.Trainer", b =>
+                {
+                    b.HasOne("Fitness.Entities.Concrete.AppUser", "AppUser")
+                        .WithOne("TrainerProfile")
+                        .HasForeignKey("Fitness.Entities.Concrete.Trainer", "AppUserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("AppUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -538,6 +559,8 @@ namespace Fitness.Data.Migrations
             modelBuilder.Entity("Fitness.Entities.Concrete.AppUser", b =>
                 {
                     b.Navigation("Appointments");
+
+                    b.Navigation("TrainerProfile");
                 });
 
             modelBuilder.Entity("Fitness.Entities.Concrete.Service", b =>
