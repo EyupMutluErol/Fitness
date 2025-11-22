@@ -17,8 +17,8 @@ public class AppUser:IdentityUser,IEntity
     [MaxLength(100, ErrorMessage = "E-posta en fazla 100 karakter olabilir.")]
     public override string? Email { get; set; }
     [Required(ErrorMessage = "Telefon numarası zorunludur.")]
-    [Phone(ErrorMessage = "Lütfen geçerli bir telefon numarası formatı girin.")]
-    [MaxLength(20, ErrorMessage = "Telefon numarası en fazla 20 karakter olabilir.")]
+    [RegularExpression(@"^5[0-9]{9}$", ErrorMessage = "Telefon numarası 5xx xxx xx xx formatında olmalıdır.")]
+    [MaxLength(10, ErrorMessage = "Telefon numarası en fazla 10 hane olmalıdır.")]
     public override string? PhoneNumber { get; set; }
     [Range(100, 250, ErrorMessage = "Boy 100cm ile 250cm arasında olabilir.")]
     public double? Height { get; set; }
