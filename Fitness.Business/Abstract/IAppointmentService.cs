@@ -10,5 +10,6 @@ public interface IAppointmentService
     Task<bool> CheckAvailabilityAndBook(Appointment appointment);
     Task<bool> ApproveAppointment(int appointmentId , string adminNotes);
     Task<bool> CancelAppointment(int appointmentId);
+    Task<List<Appointment>> GetPendingAppointmentsAsync();
 
 }

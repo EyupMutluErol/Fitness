@@ -35,7 +35,7 @@ public class AvailabilityManager : IAvailabilityService
             throw new InvalidOperationException("Bu zaman aralığında mevcut randevular bulunduğu için uygunluk bloğu eklenemez.");
         }
         await _availabilityRepository.AddAsync(availability);
-
+        await _availabilityRepository.SaveAsync();
         return true;
     }
 
@@ -62,6 +62,7 @@ public class AvailabilityManager : IAvailabilityService
         }
 
         await _availabilityRepository.DeleteAsync(availability);
+        await _availabilityRepository.SaveAsync();
         return true;
     }
 }

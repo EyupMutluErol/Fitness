@@ -49,5 +49,8 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class, IEnti
         return await _context.Set<T>().AsNoTracking().FirstOrDefaultAsync(e => e.Id == id);
     }
 
-    
+    public async Task SaveAsync()
+    {
+        await _context.SaveChangesAsync();
+    }
 }

@@ -21,10 +21,12 @@ public class GymManager : IGymService
             throw new InvalidOperationException("Sadece bir tane spor salonu eklenebilir.");
         }
         await _gymRepository.AddAsync(gym);
+        await _gymRepository.SaveAsync();
     }
     public async Task UpdateGymAsync(Gym gym)
     {
         await _gymRepository.UpdateAsync(gym);
+        await _gymRepository.SaveAsync();
     }
 
     public async Task DeleteGymAsync(int id)
@@ -33,6 +35,7 @@ public class GymManager : IGymService
         if (gymToDelete != null)
         {
             await _gymRepository.DeleteAsync(gymToDelete);
+            await _gymRepository.SaveAsync();
         }
     }
 

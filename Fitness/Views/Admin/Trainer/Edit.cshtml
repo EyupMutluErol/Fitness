@@ -1,5 +1,71 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model Fitness.Entities.Concrete.Trainer
 @{
+    ViewData["Title"] = "Antrenör Düzenle";
+    Layout = "_AdminLayout";
+}
+
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <h2 class="text-info">Antrenör Düzenle: @Model.FirstName @Model.LastName</h2>
+        <hr />
+
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <form asp-controller="Admin" asp-action="TrainerEdit" method="post" enctype="multipart/form-data">
+
+            @* GİZLİ INPUTLAR: Varlık ID'leri ve FK'lar taşınmalıdır *@
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="AppUserId" /> @* FK'yı kaybetmemek için taşınır *@
+            <input type="hidden" asp-for="ProfileImageUrl" /> @* Yeni dosya yüklenmezse mevcut URL'i korumak için *@
+
+            @* 1. AD VE SOYAD (Sadece okunabilir yapıldı, Identity'den geldikleri için) *@
+            <div class="mb-3">
+                <label asp-for="FirstName" class="form-label"></label>
+                <input asp-for="FirstName" class="form-control" readonly />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="LastName" class="form-label"></label>
+                <input asp-for="LastName" class="form-control" readonly />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+
+            @* 2. UZMANLIK ALANI *@
+            <div class="mb-3">
+                <label asp-for="Specialization" class="form-label"></label>
+                <input asp-for="Specialization" class="form-control" />
+                <span asp-validation-for="Specialization" class="text-danger"></span>
+            </div>
+
+            @* 3. BİYOGRAFİ ALANI *@
+            <div class="mb-3">
+                <label asp-for="Bio" class="form-label"></label>
+                <textarea asp-for="Bio" class="form-control"></textarea>
+                <span asp-validation-for="Bio" class="text-danger"></span>
+            </div>
+
+            @* 4. PROFİL RESMİ GÜNCELLEME *@
+            <div class="mb-3">
+                <label for="file" class="form-label">Yeni Profil Resmi Yükle</label>
+                <input type="file" name="file" class="form-control" />
+                @if (!string.IsNullOrEmpty(Model.ProfileImageUrl))
+                {
+                    <img src="@Model.ProfileImageUrl" alt="Mevcut Resim" style="width: 100px; height: 100px; object-fit: cover; margin-top: 10px;" />
+                }
+            </div>
+
+            @* Kaydet Butonu *@
+            <div class="d-grid gap-2 mt-4">
+                <button type="submit" class="btn btn-info text-white">Güncelle</button>
+                <a asp-action="TrainerList" class="btn btn-secondary">İptal</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

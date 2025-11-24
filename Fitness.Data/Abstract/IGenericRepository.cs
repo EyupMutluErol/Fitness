@@ -12,4 +12,6 @@ public interface IGenericRepository<T> where T : class , IEntityWithId , new()
     Task DeleteAsync(T entity);
     Task<List<T>> GetAllAsync(Expression<Func<T, bool>> filter);
     Task<T> GetAsync(Expression<Func<T, bool>> filter);
+
+    Task SaveAsync();
 }

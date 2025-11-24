@@ -17,13 +17,18 @@ public class TrainerManager : ITrainerService
     }
     public async Task AddTrainer(Trainer trainer)
     {
-        var existingTrainer = await _trainerRepository.GetAsync(t => t.FirstName == trainer.FirstName && t.LastName == trainer.LastName);
+        var existingProfileByAppUser = await _trainerRepository.GetAsync(
+        t => t.AppUserId == trainer.AppUserId
+    );
 
-        if(existingTrainer != null)
+        if (existingProfileByAppUser != null)
         {
-            throw new InvalidOperationException("Aynı isim ve soyisimde bir antrenör zaten mevcut.");
+            throw new InvalidOperationException("Bu kullanıcı zaten bir antrenör profiline sahiptir.");
         }
+
+        // 2. Kaydetme
         await _trainerRepository.AddAsync(trainer);
+        await _trainerRepository.SaveAsync();
     }
     public async Task UpdateTrainer(Trainer trainer)
     {
@@ -32,6 +37,7 @@ public class TrainerManager : ITrainerService
             throw new ArgumentException("Geçersiz antrenör ID'si.");
         }
         await _trainerRepository.UpdateAsync(trainer);
+        await _trainerRepository.SaveAsync();
     }
 
     public async Task DeleteTrainer(int id)
@@ -45,6 +51,7 @@ public class TrainerManager : ITrainerService
         if(trainerToDelete != null)
         {
             await _trainerRepository.DeleteAsync(trainerToDelete);
+            await _trainerRepository.SaveAsync();
         }
     }
     public async Task<List<Trainer>> GetTrainersWithServices()
@@ -78,9 +85,12 @@ public class TrainerManager : ITrainerService
         return finalAvailableTrainers;
     }
 
-    
+    public async Task<Trainer> GetAsync(System.Linq.Expressions.Expression<Func<Trainer, bool>> filter)
+    {
+        return await _trainerRepository.GetAsync(filter);
+    }
 
-   
 
-    
+
+
 }

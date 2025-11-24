@@ -1,0 +1,80 @@
+﻿@model Fitness.Models.UserEditViewModel
+@{
+    ViewData["Title"] = "Kullanıcı Düzenle ve Rol Yönetimi";
+    Layout = "_AdminLayout"; // Admin layoutu kullanır
+}
+
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <h2 class="text-info">@Model.FirstName @Model.LastName Kullanıcısını Düzenle</h2>
+        <hr />
+
+        @* Başarı ve Hata Mesajları için *@
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <form asp-controller="Admin" asp-action="MemberEdit" method="post">
+
+            @* 1. GİZLİ INPUTLAR (ID ve diğer alanları taşımak zorunludur) *@
+            <input type="hidden" asp-for="Id" />
+
+            <div class="mb-3">
+                <label asp-for="FirstName" class="form-label"></label>
+                <input asp-for="FirstName" class="form-control" /> @* Veriyi göndermesi için input gereklidir *@
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+
+            @* 2. HATA ÇÖZÜMÜ: Soyad alanı (Zorunludur) *@
+            <div class="mb-3">
+                <label asp-for="LastName" class="form-label"></label>
+                <input asp-for="LastName" class="form-control" /> @* Veriyi göndermesi için input gereklidir *@
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+
+            @* 2. TEMEL BİLGİLER (Sadece okunur gösterilir) *@
+            <div class="mb-3">
+                <label asp-for="Email" class="form-label"></label>
+                <input asp-for="Email" class="form-control" readonly /> @* E-posta temel kimlik olduğu için değiştirilemez *@
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="PhoneNumber" class="form-label"></label>
+                <input asp-for="PhoneNumber" class="form-control" />
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+
+            @* 3. ROL YÖNETİMİ *@
+            <hr />
+            <h4 class="mt-4">Rol Ataması</h4>
+            <div class="mb-3">
+                <label class="form-label fw-bold">Mevcut Rol:</label>
+                <span class="badge bg-warning text-dark fs-6">@Model.CurrentRole</span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="SelectedRole" class="form-label">Yeni Rol Seçin</label>
+
+                @* Select Listesi: Tüm AvailableRoles'u gösterir *@
+                <select asp-for="SelectedRole" class="form-select">
+                    @foreach (var role in Model.AvailableRoles)
+                    {
+                        @* Seçenekleri oluşturur ve mevcut rolü otomatik seçer *@
+                        <option value="@role.Name" selected="@(role.Name == Model.CurrentRole)">@role.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="SelectedRole" class="text-danger"></span>
+            </div>
+
+            @* 4. KAYDET BUTONU *@
+            <div class="d-grid gap-2 mt-4">
+                <button type="submit" class="btn btn-info text-white">Kullanıcıyı Güncelle ve Rol Ata</button>
+                <a asp-action="MemberList" class="btn btn-secondary">İptal / Geri Dön</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

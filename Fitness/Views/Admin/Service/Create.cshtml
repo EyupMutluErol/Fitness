@@ -1,5 +1,51 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model Fitness.Entities.Concrete.Service
 @{
+    ViewData["Title"] = "Hizmet Ekle";
+    Layout = "_AdminLayout";
+}
+
+<div class="row">
+    <div class="col-md-6 offset-md-3">
+        <h2 class="text-success">Yeni Hizmet Ekle</h2>
+        <hr />
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <form asp-controller="Admin" asp-action="ServiceCreate" method="post">
+
+            <div class="mb-3">
+                <label asp-for="Name" class="form-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Description" class="form-label"></label>
+                <textarea asp-for="Description" class="form-control"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="DurationInMinutes" class="form-label"></label>
+                <input asp-for="DurationInMinutes" class="form-control" />
+                <span asp-validation-for="DurationInMinutes" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Price" class="form-label"></label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+
+            <div class="d-grid gap-2 mt-4">
+                <button type="submit" class="btn btn-success">Hizmeti Kaydet</button>
+                <a asp-action="ServiceList" class="btn btn-secondary">İptal</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

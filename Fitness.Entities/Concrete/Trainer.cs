@@ -1,4 +1,5 @@
 ﻿using Fitness.Entities.Abstract;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations;
 
 namespace Fitness.Entities.Concrete;
@@ -23,10 +24,13 @@ public class Trainer: IEntityWithId
     [MaxLength(255, ErrorMessage = "Profil resmi URL'si en fazla 255 karakter olabilir.")]
     public string? ProfileImageUrl { get; set; }
 
-    
+    [ValidateNever]
     public virtual ICollection<Availability> Availabilities { get; set; }
+    [ValidateNever]
     public virtual ICollection<ServiceTrainer> ServiceTrainers { get; set; }
+    [ValidateNever]
     public virtual ICollection<Appointment> Appointments { get; set; } 
+    [ValidateNever]
     public virtual AppUser AppUser { get; set; }
 
     }

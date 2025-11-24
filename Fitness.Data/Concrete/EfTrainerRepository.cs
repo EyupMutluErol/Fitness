@@ -23,6 +23,8 @@ public class EfTrainerRepository : GenericRepository<Trainer>, ITrainerRepositor
         return await _context.Set<Trainer>()
             .Include(t => t.ServiceTrainers)
             .ThenInclude(st => st.Service)
+            .Include(t=>t.AppUser)
+            .AsNoTracking()
             .ToListAsync();
     }
 
@@ -32,6 +34,8 @@ public class EfTrainerRepository : GenericRepository<Trainer>, ITrainerRepositor
             .Include(t => t.Availabilities)
             .Include(t => t.ServiceTrainers)
             .ThenInclude(st => st.Service)
+            .Include(t => t.AppUser)
+            .AsNoTracking()
             .FirstOrDefaultAsync(t => t.Id == id);
     }
 }

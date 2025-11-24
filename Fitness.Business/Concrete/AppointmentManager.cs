@@ -79,6 +79,7 @@ public class AppointmentManager : IAppointmentService
         }
 
         await _appointmentRepository.AddAsync(appointment);
+        await _appointmentRepository.SaveAsync();
         return true;
     }
 
@@ -98,7 +99,7 @@ public class AppointmentManager : IAppointmentService
         appointment.IsConfirmed = true;
         appointment.AdminNotes = adminNotes;
         await _appointmentRepository.UpdateAsync(appointment);
-
+        await _appointmentRepository.SaveAsync();
         return true;
     }
 
@@ -112,14 +113,18 @@ public class AppointmentManager : IAppointmentService
 
         appointment.IsCancelled = true;
         await _appointmentRepository.UpdateAsync(appointment);
+        await _appointmentRepository.SaveAsync();
         return true;
     }
 
-    
 
-    
 
-    
+    public async Task<List<Appointment>> GetPendingAppointmentsAsync()
+    {
+        return await _appointmentRepository.GetAllAsync(a => !a.IsConfirmed && !a.IsCancelled);
+    }
 
-   
+
+
+
 }

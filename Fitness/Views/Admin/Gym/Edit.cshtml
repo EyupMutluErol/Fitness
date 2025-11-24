@@ -1,5 +1,53 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model Fitness.Entities.Concrete.Gym
 @{
+    ViewData["Title"] = "Salon Bilgisi Düzenle";
+    Layout = "_AdminLayout";
+}
+@* İçerik, Create.cshtml'in kopyasıdır, sadece ID inputu eklenir *@
+<div class="row">
+    <div class="col-md-6 offset-md-3">
+        <h2 class="text-info">Salon Bilgilerini Düzenle</h2>
+        <hr />
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <form asp-controller="Admin" asp-action="GymEdit" method="post">
+
+            <input type="hidden" asp-for="Id" /> @* ID Alanını Gizli Taşır *@
+
+            <div class="mb-3">
+                <label asp-for="Name" class="form-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Address" class="form-label"></label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="PhoneNumber" class="form-label"></label>
+                <input asp-for="PhoneNumber" class="form-control" />
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="WorkingHours" class="form-label"></label>
+                <input asp-for="WorkingHours" class="form-control" />
+                <span asp-validation-for="WorkingHours" class="text-danger"></span>
+            </div>
+
+            <div class="d-grid gap-2 mt-4">
+                <button type="submit" class="btn btn-info text-white">Güncelle</button>
+                <a asp-action="GymList" class="btn btn-secondary">İptal</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

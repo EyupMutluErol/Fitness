@@ -1,5 +1,71 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model Fitness.Models.AdminDashboardViewModel
 @{
+    // Layout, yan menüyü içeren _AdminLayout olmalıdır.
+    ViewData["Title"] = "Yönetici Dashboard";
+    Layout = "_AdminLayout";
 }
+
+<h2 class="mb-4">Yönetici Paneli Dashboard</h2>
+<hr />
+
+<div class="row">
+    @* KART 1: Toplam Üyeler *@
+    <div class="col-md-3 mb-4">
+        <div class="card text-white bg-success shadow">
+            <div class="card-body">
+                <h5 class="card-title"><i class="fas fa-users"></i> Toplam Üyeler</h5>
+                <h1 class="card-text">@Model.TotalMembers</h1>
+                <a asp-action="MemberList" class="text-white small stretched-link">Detaylar</a> @* Tüm üyeleri listeler *@
+            </div>
+        </div>
+    </div>
+
+    @* KART 2: Antrenörler *@
+    <div class="col-md-3 mb-4">
+        <div class="card text-white bg-primary shadow">
+            <div class="card-body">
+                <h5 class="card-title"><i class="fas fa-user-tie"></i> Antrenör Sayısı</h5>
+                <h1 class="card-text">@Model.TotalTrainers</h1>
+                <a asp-action="TrainerList" class="text-white small stretched-link">Yönet</a>
+            </div>
+        </div>
+    </div>
+
+    @* KART 3: Bekleyen Randevular *@
+    <div class="col-md-3 mb-4">
+        <div class="card text-white bg-warning shadow">
+            <div class="card-body">
+                <h5 class="card-title"><i class="fas fa-clock"></i> Onay Bekleyenler</h5>
+                <h1 class="card-text">@Model.PendingAppointments</h1>
+                @* Bu link Appointment Controller'daki Onay Listesine gider *@
+                <a asp-controller="Appointment" asp-action="PendingList" class="text-white small stretched-link">Randevu Onayları</a>
+            </div>
+        </div>
+    </div>
+
+    @* KART 4: Toplam Hizmetler *@
+    <div class="col-md-3 mb-4">
+        <div class="card text-white bg-info shadow">
+            <div class="card-body">
+                <h5 class="card-title"><i class="fas fa-dumbbell"></i> Aktif Hizmetler</h5>
+                <h1 class="card-text">@Model.TotalServices</h1>
+                <a asp-action="ServiceList" class="text-white small stretched-link">Yönet</a>
+            </div>
+        </div>
+    </div>
+
+    @* KART 5: SALON KAYDI *@
+    <div class="col-md-3 mb-4">
+        <div class="card text-white bg-secondary shadow">
+            <div class="card-body">
+                <h5 class="card-title"><i class="fas fa-building"></i> Salon Kaydı</h5>
+                <h1 class="card-text">@Model.TotalGyms</h1>
+                <a asp-action="GymList" class="text-white small stretched-link">Yönet / Düzenle</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<p class="mt-4">
+    Admin Dashboard'unuz başarıyla oluşturuldu. Sol menüden CRUD işlemlerine devam edebilirsiniz.
+</p>

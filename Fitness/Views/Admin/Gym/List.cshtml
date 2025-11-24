@@ -1,5 +1,52 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model IEnumerable<Fitness.Entities.Concrete.Gym>
 @{
+    ViewData["Title"] = "Salon Bilgileri";
+    Layout = "_AdminLayout";
+    var gym = Model.FirstOrDefault(); // Tek kayıt beklendiği için ilk kaydı alıyoruz.
 }
+
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <h2 class="text-primary">Kurumsal Salon Bilgileri</h2>
+        <hr />
+
+        @* Başarı ve Hata Mesajları *@
+        @if (ViewBag.SuccessMessage != null)
+        {
+            <div class="alert alert-success">@ViewBag.SuccessMessage</div>
+        }
+        @if (ViewBag.ErrorMessage != null)
+        {
+            <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
+        }
+
+        @if (gym != null)
+        {
+            <div class="card p-4">
+                <dl class="row">
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => gym.Name)</dt>
+                    <dd class="col-sm-8">@gym.Name</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => gym.Address)</dt>
+                    <dd class="col-sm-8">@gym.Address</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => gym.PhoneNumber)</dt>
+                    <dd class="col-sm-8">@gym.PhoneNumber</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => gym.WorkingHours)</dt>
+                    <dd class="col-sm-8">@gym.WorkingHours</dd>
+                </dl>
+
+                <div class="mt-3">
+                    <a asp-action="GymEdit" asp-route-id="@gym.Id" class="btn btn-warning">Bilgileri Düzenle</a>
+                    <a asp-action="GymDelete" asp-route-id="@gym.Id" class="btn btn-danger">Salon Kaydını Sil</a>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-info">Sistemde tanımlı kurumsal salon bilgisi bulunmamaktadır. Lütfen ekleyin.</div>
+            <a asp-action="GymCreate" class="btn btn-success">Salon Bilgisi Ekle</a>
+        }
+    </div>
+</div>

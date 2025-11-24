@@ -11,4 +11,5 @@ public interface ITrainerService
     Task<List<Trainer>> GetTrainersWithServices();
     Task<Trainer> GetTrainerDetails(int id);
     Task<List<Trainer>> GetAvailableTrainers(DateTime date , int serviceId);
+    Task<Trainer> GetAsync(System.Linq.Expressions.Expression<Func<Trainer, bool>> filter);
 }

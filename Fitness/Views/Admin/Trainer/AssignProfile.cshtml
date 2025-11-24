@@ -5,7 +5,7 @@
 }
 
 <div class="row">
-    <div class="col-md-8 offset-md-2">
+    <div class="col-md-6 offset-md-3">
         <h2 class="text-success">@Model.FirstName @Model.LastName için Profil Oluştur</h2>
         <hr />
 
@@ -15,35 +15,38 @@
         @* Dosya yükleme (ProfileImageUrl) olduğu için enctype="multipart/form-data" zorunludur. *@
         <form asp-controller="Admin" asp-action="AssignTrainerProfile" method="post" enctype="multipart/form-data">
 
-            @* 1. ZORUNLU GİZLİ INPUTLAR *@
+            @* Zorunlu Foreign Key'i (AppUserId) gizli input ile taşıyoruz *@
             <input type="hidden" asp-for="AppUserId" />
-            <input type="hidden" asp-for="FirstName" />
-            <input type="hidden" asp-for="LastName" />
 
-            @* 2. KULLANICI ADI GÖSTERİMİ (Sadece bilgi amaçlı) *@
+            @* FirstName ve LastName alanları sadece görünecek, düzenlenmeyecek *@
             <div class="mb-3">
                 <label class="form-label">Üye Adı</label>
-                <input value="@Model.FirstName @Model.LastName" class="form-control" readonly />
+                <input asp-for="FirstName" class="form-control" readonly />
             </div>
 
-            @* 3. UZMANLIK ALANI (Zorunlu Alan) *@
+            <div class="mb-3">
+                <label class="form-label">Üye Soyadı</label>
+                <input asp-for="LastName" class="form-control" readonly />
+            </div>
+
+            @* Uzmanlık Alanı (Zorunlu Alan) *@
             <div class="mb-3">
                 <label asp-for="Specialization" class="form-label"></label>
                 <input asp-for="Specialization" class="form-control" />
                 <span asp-validation-for="Specialization" class="text-danger"></span>
             </div>
 
-            @* 4. BİYOGRAFİ ALANI *@
+            @* Biyografi Alanı *@
             <div class="mb-3">
                 <label asp-for="Bio" class="form-label"></label>
                 <textarea asp-for="Bio" class="form-control"></textarea>
                 <span asp-validation-for="Bio" class="text-danger"></span>
             </div>
 
-            @* 5. PROFİL RESMİ YÜKLEME (IFormFile) *@
+            @* Profil Resmi Yükleme (IFormFile) *@
             <div class="mb-3">
                 <label for="file" class="form-label">Profil Resmi Yükle</label>
-                <input type="file" name="file" class="form-control" /> @* name="file" Controller'daki IFormFile parametresiyle eşleşir *@
+                <input type="file" name="file" class="form-control" />
             </div>
 
             <div class="d-grid gap-2 mt-4">
@@ -55,6 +58,7 @@
 </div>
 
 @section Scripts {
+    @* İstemci tarafı doğrulamayı etkinleştirmek için *@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }

@@ -27,10 +27,12 @@ public class ServiceManager:IServiceService
             throw new ArgumentException("Hizmet fiyatı negatif olamaz.");
         }
         await _serviceRepository.AddAsync(service);
+        await _serviceRepository.SaveAsync();
     }
     public async Task UpdateServiceAsync(Service service)
     {
-        await _serviceRepository.UpdateAsync(service);  
+        await _serviceRepository.UpdateAsync(service);
+        await _serviceRepository.SaveAsync();
     }
 
     public async Task DeleteServiceAsync(int id)
@@ -46,6 +48,7 @@ public class ServiceManager:IServiceService
         if(serviceToDelete != null)
         {
             await _serviceRepository.DeleteAsync(serviceToDelete);
+            await _serviceRepository.SaveAsync();
         }
     }
     public async Task<Service> GetServiceByIdAsync(int id)
